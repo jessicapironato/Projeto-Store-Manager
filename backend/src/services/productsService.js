@@ -2,6 +2,7 @@ const productsModel = require('../models/productsModels');
 
 const getAll = async () => {
   const products = await productsModel.getAll();
+  console.log('estou aqui!!!!!!!!!', products);
   return products;
 };
 

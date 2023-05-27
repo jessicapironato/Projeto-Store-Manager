@@ -11,7 +11,7 @@ describe('Testa Camada Service', function () {
   });
 
   it('Testa getAll', async function () {
-    sinon.stub(productsModel, 'getById').resolves(mockGetAll);
+    sinon.stub(productsModel, 'getAll').resolves(mockGetAll);
 
     const result = await productsService.getAll();
  
