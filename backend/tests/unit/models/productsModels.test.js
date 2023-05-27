@@ -19,7 +19,7 @@ describe('Testa a camada Model', function () {
   it('Testando getById', async function () {
     sinon.stub(connection, 'execute').resolves([[mockGetAll[0]]]);
 
-    const result = await productsModel.getById(0);
+    const result = await productsModel.getById(1);
 
     expect(result).to.be.deep.equal(mockGetAll[0]);
   });

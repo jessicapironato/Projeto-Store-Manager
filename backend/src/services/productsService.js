@@ -7,6 +7,7 @@ const getAll = async () => {
 
 const getById = async (id) => {
   const productById = await productsModel.getById(id);
+  
   if (!productById) {
     return false;
   }
