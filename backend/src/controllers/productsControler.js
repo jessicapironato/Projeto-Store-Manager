@@ -16,7 +16,14 @@ if (!result) {
   return res.status(200).json(result);
 };
 
+const create = async (req, res) => {
+  const { name } = req.body;
+  const { message } = await productsService.create(name);
+  return res.status(201).json(message);
+};
+
 module.exports = {
   getAll,
   getById,
+  create, 
 };
