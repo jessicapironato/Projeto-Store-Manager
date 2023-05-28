@@ -5,7 +5,7 @@ const productsService = require('../../../src/services/productsService');
 const productsModel = require('../../../src/models/productsModels');
 const { mockGetAll } = require('../mocks/productsModelMock');
 
-describe('Testa Camada Service', function () {
+describe('Testa Camada Service de Products', function () {
   afterEach(function () {
     sinon.restore();
   });

@@ -28,8 +28,8 @@ const getById = async (id) => {
     ORDER BY salesp.sale_id, salesp.product_id;`, 
     [id],
     );
-  
-  return sales.length > 0 ? sales : null;
+ 
+    return sales;
 };
 
 module.exports = {

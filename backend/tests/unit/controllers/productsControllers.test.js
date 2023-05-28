@@ -9,7 +9,7 @@ const productsService = require('../../../src/services/productsService');
 const productsController = require('../../../src/controllers/productsControler');
 const { mockGetAll, mockById } = require('../mocks/productsModelMock');
 
-describe('Testes Camada Controller', function () {
+describe('Testes Camada Controller de Products', function () {
   afterEach(function () {
     sinon.restore();
   });

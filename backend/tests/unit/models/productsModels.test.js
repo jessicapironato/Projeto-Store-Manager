@@ -5,7 +5,7 @@ const productsModel = require('../../../src/models/productsModels');
 const connection = require('../../../src/models/connection');
 const { mockGetAll } = require('../mocks/productsModelMock');
 
-describe('Testa a camada Model', function () {
+describe('Testa a camada Model de Products', function () {
   afterEach(sinon.restore);
   
   it('Testando getAll', async function () {
