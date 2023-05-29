@@ -31,4 +31,29 @@ describe('Testa a camada Model de Products', function () {
 
     expect(result).to.be.deep.equal(newProduct);
   });
+
+it('Testando updateProducts', async function () {
+  const existingProduct = [{ id: 1, name: 'Existing Product' }];
+  const updateResult = [{ affectedRows: 1 }];
+  const executeStub = sinon.stub(connection, 'execute');
+
+  executeStub.onFirstCall().resolves(existingProduct);
+  executeStub.onSecondCall().resolves(updateResult);
+
+  const result = await productsModel.updateProducts('Updated Product', 1);
+
+  expect(executeStub.callCount).to.equal(2);
+
+  expect(executeStub.firstCall.args[0]).to          
+    .equal('SELECT * FROM StoreManager.products WHERE id = ?');
+
+  expect(executeStub.firstCall.args[1]).to.deep.equal([1]);
+
+  expect(executeStub.secondCall.args[0]).to
+    .equal('UPDATE StoreManager.products SET name = ? WHERE id = ?');
+
+  expect(executeStub.secondCall.args[1]).to.deep.equal(['Updated Product', 1]);
+
+  expect(result).to.equal(1);
+});
 });

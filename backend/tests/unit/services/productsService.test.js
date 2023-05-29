@@ -41,4 +41,12 @@ describe('Testa Camada Service de Products', function () {
     expect(result.type).to.be.equal(null);
     expect(result.message).to.deep.equal(newProduct);
   });
+
+  it('Testa updateProducts', async function () {
+    const updateProductResult = { type: null, message: { name: 'Updated Product', id: 1 } };
+  
+    const result = await productsService.updateProducts('Updated Product', 1);
+  
+    expect(result).to.deep.equal(updateProductResult);
+  });
 });

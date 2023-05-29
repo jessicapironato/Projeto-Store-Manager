@@ -21,20 +21,11 @@ const create = async (name) => {
 
 const updateProducts = async (name, id) => {
   const updateProduct = await productsModel.updateProducts(name, Number(id));
-  console.log(updateProduct);
   if (updateProduct.type === 404) {
     return updateProduct;
   }
   return { type: null, message: { name, id: Number(id) } };
 };
-
-// const updateProducts = async (name, id) => {
-//   const updateProduct = await productsModel.updateProducts(name, id);
-//   if (updateProduct === 0) {
-//     return { type: 404, message: 'Product not updated' };
-//   }
-//   return { type: 200, message: 'Product updated successfully' };
-// };
 
 module.exports = {
   getAll,

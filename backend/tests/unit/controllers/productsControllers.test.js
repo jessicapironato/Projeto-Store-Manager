@@ -72,4 +72,20 @@ describe('Testes Camada Controller de Products', function () {
     expect(res.json)
     .to.have.been.calledWith({ message: '"name" length must be at least 5 characters long' });
   });
+
+  it('Testando updateProducts', async function () {
+    const req = { body: { name: 'Updated Product' }, params: { id: 1 } };
+    const res = {};
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+
+    const updateProductResult = { type: null, message: { name: 'Updated Product', id: 1 } };
+    sinon.stub(productsService, 'updateProducts').resolves(updateProductResult);
+
+    await productsController.updateProducts(req, res);
+
+    expect(productsService.updateProducts).to.have.been.calledWith('Updated Product', 1);
+    expect(res.status).to.have.been.calledWith(200);
+    expect(res.json).to.have.been.calledWith({ name: 'Updated Product', id: 1 });
+  });
 });
