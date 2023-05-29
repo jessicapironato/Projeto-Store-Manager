@@ -3,7 +3,7 @@ const sinon = require('sinon');
 
 const productsService = require('../../../src/services/productsService');
 const productsModel = require('../../../src/models/productsModels');
-const { mockGetAll } = require('../mocks/productsModelMock');
+const { mockGetAll, newProduct } = require('../mocks/productsModelMock');
 
 describe('Testa Camada Service de Products', function () {
   afterEach(function () {
@@ -31,5 +31,14 @@ describe('Testa Camada Service de Products', function () {
     const result = await productsService.getById(30000);
 
     expect(result).to.be.deep.equal(false);
+  });
+
+  it('Testa create', async function () {
+    sinon.stub(productsModel, 'create').resolves(newProduct);
+
+    const result = await productsService.create({ name: 'ProdutoX' });
+
+    expect(result.type).to.be.equal(null);
+    expect(result.message).to.deep.equal(newProduct);
   });
 });

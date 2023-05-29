@@ -20,8 +20,7 @@ const create = async (name) => {
 
   const [product] = await connection
   .execute('SELECT * FROM StoreManager.products WHERE name = ?', [name]);
-  console.log(product);
-
+  
   return product[0];
 };
 

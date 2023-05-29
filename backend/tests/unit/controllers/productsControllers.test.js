@@ -8,6 +8,7 @@ chai.use(sinonChai);
 const productsService = require('../../../src/services/productsService');
 const productsController = require('../../../src/controllers/productsControler');
 const { mockGetAll, mockById } = require('../mocks/productsModelMock');
+const validateProducts = require('../../../src/middlewares/validateProducts');
 
 describe('Testes Camada Controller de Products', function () {
   afterEach(function () {
@@ -44,5 +45,31 @@ describe('Testes Camada Controller de Products', function () {
     await productsController.getById(req, res);
     expect(res.status).to.have.been.calledWith(404);
     expect(res.json).to.have.been.calledWith({ message: 'Product not found' });
+  });
+
+  it('Testando create com nome requerido', async function () {
+    const req = { body: { name: '' } };
+    const res = {};
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+
+    await validateProducts(req, res);
+
+    expect(res.status).to.have.been.calledWith(400);
+    expect(res.json).to.have.been.calledWith({ message: '"name" is required' });
+  });
+
+  it('Deve retornar o status 422 se body name possuir menos de 5 caracteres', async function () {
+    const res = {};
+    const req = { body: { name: 'Prod' } };
+
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+
+    await validateProducts(req, res);
+
+    expect(res.status).to.have.been.calledWith(422);
+    expect(res.json)
+    .to.have.been.calledWith({ message: '"name" length must be at least 5 characters long' });
   });
 });

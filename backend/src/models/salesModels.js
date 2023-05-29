@@ -31,9 +31,25 @@ const getById = async (id) => {
  
     return sales;
 };
+// Auxílio da colega Caroline
+const createSale = async (sale) => {
+  const [{ insertId }] = await connection
+  .execute('INSERT INTO sales (date) VALUES (CURRENT_TIMESTAMP)');
+  
+  const saleProducts = sale.map((product) =>
+    connection.execute(
+      `INSERT INTO sales_products 
+      (product_id, quantity, sale_id) VALUES (?, ?, ?)`,
+      [product.productId, product.quantity, insertId],
+    ));
+  
+  await Promise.all(saleProducts);
+  
+  return insertId;
+};
 
 module.exports = {
   getAll,
   getById,
-  
+  createSale,
 };
