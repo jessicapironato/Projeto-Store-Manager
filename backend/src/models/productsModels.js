@@ -24,8 +24,33 @@ const create = async (name) => {
   return product[0];
 };
 
+// const updateProducts = async ({ name, id }) => {
+//   const [{ affectedRows }] = await connection.execute(`
+//   UPDATE StoreManager.products
+//       SET name = (?)
+//       WHERE id = (?); `, [name, id]);
+//   return affectedRows;
+// };
+
+const updateProducts = async (name, id) => {
+  // Verificar se o produto existe antes da atualização
+  const [existingProduct] = await connection
+  .execute('SELECT * FROM StoreManager.products WHERE id = ?', [id]);
+ 
+  if (existingProduct.length === 0) {
+    return { type: 404, message: 'Product not found' };
+  }
+
+  const [{ affectedRows }] = await connection
+  .execute('UPDATE StoreManager.products SET name = ? WHERE id = ?', [name, id]);
+  console.log(affectedRows);
+ 
+  return affectedRows;
+};
+
 module.exports = {
   getAll,
   getById,
   create,
+  updateProducts,
 };

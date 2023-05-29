@@ -19,19 +19,27 @@ const mockAllSales = [
   },
 ];
 
-// const mockIdSales = [
-//   [
-//     {
-//       saleId: 2,
-//       productId: 3,
-//       quantity: 15,
-//       date: '2023-05-28T20:22:42.000Z',
-//     },
-//   ],
+const mockIdSales = {
+      saleId: 2,
+      productId: 3,
+      quantity: 15,
+      date: '2023-05-28T20:22:42.000Z',
+    };
 
-// ];
+const mockNewSales = [
+  {
+    productId: 1,
+    quantity: 1,
+  },
+  {
+    productId: 2,
+    quantity: 5,
+  },
+];
 
 module.exports = {
-  // mockIdSales, 
+  mockIdSales, 
   mockAllSales,
+  mockNewSales,
+
 };

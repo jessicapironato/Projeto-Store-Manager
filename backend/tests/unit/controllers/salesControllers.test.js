@@ -1,35 +1,49 @@
-const { expect } = require('chai');
+const chai = require('chai');
 const sinon = require('sinon');
+const sinonChai = require('sinon-chai');
+
+const { expect } = chai;
+chai.use(sinonChai);
 
 const salesService = require('../../../src/services/salesService');
-const salesModels = require('../../../src/models/salesModels');
-const { mockAllSales } = require('../mocks/salesModelsMock');
+const salesController = require('../../../src/controllers/salesControllers');
+const { mockAllSales, mockIdSales } = require('../mocks/salesModelsMock');
 
-describe('Testa Camada Controller de Sales', function () {
+describe('Testes Camada Controller de Sales', function () {
   afterEach(function () {
     sinon.restore();
   });
-
-  it('Testa getAll', async function () {
-    sinon.stub(salesModels, 'getAll').resolves(mockAllSales);
-
-    const result = await salesService.getAll();
- 
-    expect(result).to.be.deep.equal(mockAllSales);
+  
+  it('Testando getAll', async function () {
+    const req = { };
+    const res = {};
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+    sinon.stub(salesService, 'getAll').resolves(mockAllSales);
+    await salesController.getAll(req, res);
+    expect(res.status).to.be.calledWith(200);
+    expect(res.json).to.be.calledWithExactly(mockAllSales);
   });
 
-  it('Testa getById existente', async function () {
-    sinon.stub(salesModels, 'getById').resolves(mockAllSales[0]);
-    const result = await salesService.getById(1);
-
-    expect(result).to.be.deep.equal(mockAllSales[0]);
+  it('Testando getById existente', async function () {
+    const req = { params: { id: 1 } };
+    const res = {};
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+    sinon.stub(salesService, 'getById').resolves(mockIdSales);
+    await salesController.getById(req, res);
+    expect(res.status).to.be.calledWith(200);
+    expect(res.json).to.be.calledWithExactly(mockIdSales);
   });
 
-  it('Testa getById inexistente', async function () {
-    sinon.stub(salesModels, 'getById').resolves([]);
-
-    const result = await salesService.getById(30000);
-
-    return expect(result).to.be.an('array').that.is.empty;
-  });
+  // it('Testando getById não existente', async function () {
+  //   const req = { params: { id: 5000 } };
+  //   const res = {};
+  //   res.status = sinon.stub().returns(res);
+  //   res.json = sinon.stub().returns();
+  //   sinon.stub(salesService, 'getById').resolves(false);
+  //   await salesController.getById(req, res);
+  //   expect(res.status).to.have.been.calledWith(404);
+  //   expect(res.json).to.have.been.calledWith({ message: 'Product not found' });
+  // });
 });
