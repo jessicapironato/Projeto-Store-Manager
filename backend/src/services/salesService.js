@@ -1,4 +1,5 @@
 const salesModels = require('../models/salesModels');
+const productModels = require('../models/productsModels');
 
 const getAll = async () => {
   const sales = await salesModels.getAll();
@@ -12,11 +13,17 @@ const getById = async (id) => {
 };
 
 const createdSale = async (sale) => {
-  const newSale = await salesModels.createSale(sale);
-  if (!newSale) {
-    return { type: 404, message: 'Sale not found' };
+  const products = await Promise.all(sale.map((item) => productModels.getById(item.productId)));
+  if (products.includes(undefined)) {
+    return { type: 404, message: 'Product not found' };
   }
-  return { type: null, message: newSale };
+  const newSale = await salesModels.createSale(sale);
+  
+  return { type: null,
+  message: {
+    id: newSale,
+    itemsSold: sale,
+  } };
 };
 
 module.exports = {

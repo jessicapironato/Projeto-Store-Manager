@@ -17,15 +17,12 @@ const getById = async (req, res) => {
 
 const createdSale = async (req, res) => {
   const newSale = req.body;
-  const { message } = await salesServices.createdSale(newSale);
-  if (!message) {
-    return res.status(404).json({ message: 'Sale not found' });
+  const { type, message } = await salesServices.createdSale(newSale);
+  if (type) {
+    return res.status(type).json({ message });
   }
   
-  return res.status(201).json({
-    id: message,
-    itemsSold: newSale,
-  });
+  return res.status(201).json(message);
 };
 
 module.exports = {

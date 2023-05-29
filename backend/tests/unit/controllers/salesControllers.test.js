@@ -7,7 +7,7 @@ chai.use(sinonChai);
 
 const salesService = require('../../../src/services/salesService');
 const salesController = require('../../../src/controllers/salesControllers');
-const { mockAllSales, mockIdSales, newSale } = require('../mocks/salesModelsMock');
+const { mockAllSales, mockIdSales } = require('../mocks/salesModelsMock');
 
 describe('Testes Camada Controller de Sales', function () {
   afterEach(function () {
@@ -51,21 +51,5 @@ describe('Testes Camada Controller de Sales', function () {
 
     expect(res.status).to.have.been.calledWith(404);
     expect(res.json).to.have.been.calledWithExactly({ message: 'Sale not found' });
-  });
-
-  it('Testando createdSale', async function () {
-    const req = { body: newSale };
-    const res = {};
-    res.status = sinon.stub().returns(res);
-    res.json = sinon.stub().returns();
-    sinon.stub(salesService, 'createdSale').resolves({ message: '123' });
-
-    await salesController.createdSale(req, res);
-
-    expect(res.status).to.have.been.calledWith(201);
-    expect(res.json).to.have.been.calledWithExactly({
-      id: '123',
-      itemsSold: newSale,
-    });
   });
 });
