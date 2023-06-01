@@ -88,4 +88,20 @@ describe('Testes Camada Controller de Products', function () {
     expect(res.status).to.have.been.calledWith(200);
     expect(res.json).to.have.been.calledWith({ name: 'Updated Product', id: 1 });
   });
+
+  it('Testando deleteProducts', async function () {
+    const req = { params: { id: 1 } };
+    const res = {};
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+
+    const deleteResult = { type: null, message: { id: 1, name: 'Product' } };
+    sinon.stub(productsService, 'deleteProducts').resolves(deleteResult);
+
+    await productsController.deleteProducts(req, res);
+
+    expect(productsService.deleteProducts).to.have.been.calledWith(1);
+    expect(res.status).to.have.been.calledWith(204);
+    // expect(res.json).to.not.have.been.called; // Verifica que res.json não foi chamado
+  });
 });

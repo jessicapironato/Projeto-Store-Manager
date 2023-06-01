@@ -56,4 +56,19 @@ it('Testando updateProducts', async function () {
 
   expect(result).to.equal(1);
 });
+
+it('Testando deleteProducts', async function () {
+  const executeStub = sinon.stub(connection, 'execute');
+
+  executeStub.resolves();
+
+  await productsModel.deleteProducts(1);
+
+  expect(executeStub.callCount).to.equal(1);
+
+  expect(executeStub.firstCall.args[0]).to
+    .equal('DELETE FROM StoreManager.products WHERE id = ?');
+
+  expect(executeStub.firstCall.args[1]).to.deep.equal([1]);
+});
 });

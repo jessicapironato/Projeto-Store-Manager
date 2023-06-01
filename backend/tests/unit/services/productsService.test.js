@@ -1,5 +1,6 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
+const { assert } = require('chai');
 
 const productsService = require('../../../src/services/productsService');
 const productsModel = require('../../../src/models/productsModels');
@@ -49,4 +50,21 @@ describe('Testa Camada Service de Products', function () {
   
     expect(result).to.deep.equal(updateProductResult);
   });
+
+it('Testa deleteProducts', async function () {
+  const productId = 1;
+  const productById = mockGetAll[0];
+  const deleteResult = { type: null, message: productById };
+  const getByIdStub = sinon.stub(productsModel, 'getById');
+  const deleteProductsStub = sinon.stub(productsModel, 'deleteProducts');
+
+  getByIdStub.withArgs(productId).resolves(productById);
+  deleteProductsStub.withArgs(productId).resolves();
+
+  const result = await productsService.deleteProducts(productId);
+
+  assert(getByIdStub.calledOnceWithExactly(productId));
+  assert(deleteProductsStub.calledOnceWithExactly(productId));
+  assert.deepStrictEqual(result, deleteResult);
+});
 });
